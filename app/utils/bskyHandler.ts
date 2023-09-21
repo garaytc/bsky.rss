@@ -64,7 +64,7 @@ async function post({
             },
           ],
         };
-       }
+      }
     } else {
       embed_data = {
         $type: "app.bsky.embed.external",
@@ -117,7 +117,7 @@ async function post({
     else {
       console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error constructor. ${error.constructor.name}`);
     }
-
+    
     if (!post) post = { ratelimit: true, retryAfter: 30 };
   } finally {
     return post;
