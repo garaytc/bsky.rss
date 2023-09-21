@@ -96,8 +96,6 @@ async function post({
     if (error.constructor.name == XRPCError.name) {
       let xrpc_error: XRPCError = error;
 
-      console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error http error. Code error ${xrpc_error.status}`);
-
       if (xrpc_error.status == ResponseType.UpstreamTimeout) {
         // @ts-ignore
         let headers = xrpc_error.headers;
@@ -109,9 +107,6 @@ async function post({
         ) {
           let retryAfter: number = +headers["Retry-After"];
           post = { ratelimit: true, retryAfter: retryAfter };
-        }
-        else {
-          console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error headers. ${headers}`);
         }
       }
       else {
@@ -128,10 +123,7 @@ async function post({
         );
       }
     }
-    else {
-      console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error constructor. ${error.constructor.name}`);
-    }
-    
+
     if (!post) post = { ratelimit: true, retryAfter: 30 };
   } finally {
     return post;
