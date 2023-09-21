@@ -118,7 +118,9 @@ async function post({
 
         fs.appendFileSync(
           debug_file,
-          `[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}\n[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`,
+          `[${new Date().toUTCString()}] - [bsky.rss POST] Error http error. Code error ${xrpc_error.status}\n`
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}\n`
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`,
           "utf8"
         );
       }
