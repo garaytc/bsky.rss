@@ -113,6 +113,11 @@ async function post({
           console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error headers. ${headers}`);
         }
       }
+      else {
+        post = { ratelimit: false };
+        console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}`);
+        console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`);
+      }
     }
     else {
       console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error constructor. ${error.constructor.name}`);
