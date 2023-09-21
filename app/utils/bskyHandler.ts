@@ -1,6 +1,7 @@
 let bskyAgent: any = null;
 import { BskyAgent, RichText } from "@atproto/api";
 import { XRPCError, ResponseType } from "@atproto/xrpc";
+import fs from "fs";
 
 async function init(service: string) {
   if (bskyAgent) throw new Error("Bluesky agent already initialized.");
@@ -117,6 +118,14 @@ async function post({
         post = { ratelimit: false };
         console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}`);
         console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`);
+
+        let debug_file = __dirname + "/../../data/debug_errors.txt"
+
+        fs.appendFileSync(
+          debug_file,
+          `[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}\n[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`,
+          "utf8"
+        );
       }
     }
     else {
