@@ -66,7 +66,7 @@ async function post({
 
   if (embed) {
     if (embed.type == "image") {
-      if (embed.image) {
+      if (embed.image && embedImage.data.blob) {
         embed_data = {
           $type: "app.bsky.embed.images",
           images: [
