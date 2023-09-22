@@ -46,6 +46,17 @@ async function post({
         encoding: "image/jpeg",
       });
     } catch (e: any) {
+      
+      console.log(`[${new Date().toUTCString()}] - [bsky.rss POST IMG] Img not uploaded ${embed.image}`);
+
+      let debug_file = __dirname + "/../../data/debug_errors.txt"
+
+      fs.appendFileSync(
+        debug_file,
+        `[${new Date().toUTCString()}] - [bsky.rss POST IMG] Img not uploaded ${embed.image}`,
+        "utf8"
+      );
+
       embedImage = { ratelimit: true };
     }
   }
@@ -95,6 +106,8 @@ async function post({
     // if (error instanceof XRPCError) {
     if (error.constructor.name == XRPCError.name) {
       let xrpc_error: XRPCError = error;
+      
+      console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error http error. Code error ${xrpc_error.status}`)
 
       if (xrpc_error.status == ResponseType.UpstreamTimeout) {
         // @ts-ignore
@@ -107,6 +120,9 @@ async function post({
         ) {
           let retryAfter: number = +headers["Retry-After"];
           post = { ratelimit: true, retryAfter: retryAfter };
+        }
+        else {
+          console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Headers pb. ${error}`);
         }
       }
       else {
@@ -124,6 +140,10 @@ async function post({
           "utf8"
         );
       }
+    }
+    else
+    {
+      console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error not XRPCError. ${error}`);
     }
 
     if (!post) post = { ratelimit: true, retryAfter: 30 };
