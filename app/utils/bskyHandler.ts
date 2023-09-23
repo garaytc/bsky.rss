@@ -127,7 +127,10 @@ async function post({
       }
       else {
         post = { ratelimit: false };
+        console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Error for ${embed.title}`);
         console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}`);
+        console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full embed data. ${embed_data}.`);
+        console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Uri. ${embed.uri}.`);
         console.log(`[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`);
 
         let debug_file = __dirname + "/../../data/debug_errors.txt"
@@ -135,8 +138,11 @@ async function post({
         fs.appendFileSync(
           debug_file,
           `[${new Date().toUTCString()}] - [bsky.rss POST] Error http error. Code error ${xrpc_error.status}\n`
-          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}\n`
-          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}`,
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Error for ${embed.title}.\n`
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full post. ${record}.\n`
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full embed data. ${embed_data}.\n`
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full uri. ${embed.uri}.\n`
+          + `[${new Date().toUTCString()}] - [bsky.rss POST] Full error. ${error}\n`,
           "utf8"
         );
       }
